@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import loadRoutes from './routes/index.ts';
 
-const PORT = process.env.PORT || 8000;
+// Heroku sets `PORT` for the *web* process. The backend should be controlled
+// explicitly by `SERVER_PORT` so it doesn't fight with the frontend port.
+const PORT = Number(Deno.env.get("SERVER_PORT") ?? "8000");
 
 const app = express()
 

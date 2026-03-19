@@ -100,12 +100,10 @@ export class SQLUserScoresAdapter implements UserScoresPort {
       const result = (yield* Effect.tryPromise({
         try: () => pool.query(query, [data.limit]),
         catch: (error) => {
-          console.log(error);
           Effect.logError(error);
           return new UserScoresFetchError({ message: "Failed to fetch user scores from database" });
         }
       })) as { rows: Array<any> };
-      console.log(result.rows);
 
       const userScoresU = (result.rows ?? []).map((row: any) => ({
         fid: row.fid,

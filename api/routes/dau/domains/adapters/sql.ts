@@ -9,13 +9,16 @@ import {
 import { DAUFetchError } from "../errors.ts";
 import { DAUPort } from "../ports.ts";
 
+const envGet = (key: string): string | undefined =>
+  (globalThis as any)?.Deno?.env?.get?.(key);
+
 export class SQLDAUAdapter implements DAUPort {
   private static pool: Pool | null = null;
 
   private static getPool(): Pool {
     if (SQLDAUAdapter.pool) return SQLDAUAdapter.pool;
 
-    const connectionString = Deno.env.get("POSTGRES_URI");
+    const connectionString = envGet("POSTGRES_URI");
     if (!connectionString) {
       throw new Error("Missing POSTGRES_URI environment variable");
     }
@@ -43,8 +46,8 @@ export class SQLDAUAdapter implements DAUPort {
           "users" AS "dau",
           "adjusted_users" AS "scoreAdjustedDau"
         FROM public."DAU"
-        WHERE 
-            "date" >= '2026-03-16'
+        WHERE
+          "date" >= '2026-03-16'
         ORDER BY "date" DESC
         LIMIT $1::int
       `;

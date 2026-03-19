@@ -21,7 +21,7 @@ export class APIAdapter implements APIPort {
     fetchDAU(pastDays: string): Effect.Effect<DAUResponseDataT, DAUFetchError> {
         const program = Effect.gen(function* () {
             const response = yield* Effect.tryPromise(
-                () => fetch(`http://localhost:8000/api/dau?pastDays=${pastDays}`),
+                () => fetch(`/api/dau?pastDays=${encodeURIComponent(pastDays)}`),
             );
             const dauResponse = yield* Effect.tryPromise(
                 () => response.json(),
@@ -41,7 +41,7 @@ export class APIAdapter implements APIPort {
     fetchLatestUserScores(): Effect.Effect<UserScoresResponseDataT, UserScoresFetchError> {
         const program = Effect.gen(function* () {
             const response = yield* Effect.tryPromise(
-                () => fetch(`http://localhost:8000/api/user-scores/`),
+                () => fetch(`/api/user-scores/`),
             );
             const userScoresResponse = yield* Effect.tryPromise(
                 () => response.json(),
@@ -64,7 +64,7 @@ export class APIAdapter implements APIPort {
     fetchUserScore(fid: string): Effect.Effect<UserScoreResponseDataT, UserScoresFetchError> {
         const program = Effect.gen(function* () {
             const response = yield* Effect.tryPromise(
-                () => fetch(`http://localhost:8000/api/user-scores/${fid}`),
+                () => fetch(`/api/user-scores/${encodeURIComponent(fid)}`),
             );
             const userScoresResponse = yield* Effect.tryPromise(
                 () => response.json(),

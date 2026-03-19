@@ -29,8 +29,49 @@ router.get('/', async (req, res) => {
     const result = await Effect.runPromise(program);
     res.status(200).json(result);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/csv', async (_req, res) => {
+  const limit = 10000;
+
+  const program = Effect.gen(function* () {
+    yield* Effect.logInfo(
+      "Fetching latest user scores as CSV with limit: " + limit,
+    );
+    return yield* fetchLatestUserScores(limit);
+  }).pipe(
+    Effect.provideService(UserScoresService, new SQLUserScoresAdapter()),
+    Effect.catchAll((defect) => {
+      Effect.logError(defect);
+      return Effect.fail({ error: "Internal server error" });
+    }),
+  );
+
+  try {
+    const result = await Effect.runPromise(program);
+
+    const csvLines = [
+      "fid,pagerank",
+      ...result.map((row: any) => {
+        const fid = row.fid;
+        const pagerank =
+          row?.scores?.pagerank !== undefined ? row.scores.pagerank : "";
+        return `${fid},${pagerank}`;
+      }),
+    ];
+    const csv = csvLines.join("\n");
+
+    res.status(200);
+    res.setHeader("Content-Type", "text/csv; charset=utf-8");
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="latest-user-scores.csv"',
+    );
+    res.send(csv);
+  } catch (_error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

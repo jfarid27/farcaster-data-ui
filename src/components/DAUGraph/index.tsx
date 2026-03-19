@@ -21,11 +21,15 @@ export default function DAUGraph() {
 
   const parsed = useMemo<Datum[]>(() => {
     // D3 can work with strings for the x-domain, but we keep a stable array order.
-    return days.map((d) => ({
-      day: d.day,
-      dau: d.dau,
-      scoreAdjustedDau: d.scoreAdjustedDau,
-    }));
+    // Your backend currently returns days in descending order; for the chart we want
+    // chronological order left-to-right.
+    return [...days]
+      .sort((a, b) => a.day.localeCompare(b.day))
+      .map((d) => ({
+        day: d.day,
+        dau: d.dau,
+        scoreAdjustedDau: d.scoreAdjustedDau,
+      }));
   }, [days]);
 
   useEffect(() => {
