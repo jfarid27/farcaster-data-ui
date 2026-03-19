@@ -1,10 +1,10 @@
-import { Effect, Schema } from "effect";
-import { UserScoresService } from "./../../../api/routes/user-scores/domains/ports.ts";
+import { Effect } from "effect";
+import { APIService } from "../../domain/api/ports.ts";
 
 export const fetchUserScores = Effect.gen(function* () {
-    const userScoresService = yield* UserScoresService;
+    const apiService = yield* APIService;
 
-    const userScores = yield* userScoresService.fetchLatestUserScores({ limit: 10 });
+    const userScores = yield* apiService.fetchLatestUserScores();
 
     return userScores;
 });

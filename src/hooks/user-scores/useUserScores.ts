@@ -3,11 +3,9 @@ import { Effect, pipe } from "effect";
 import {
     type UserScoresResponseDataT,
 } from "./../../../api/routes/user-scores/domains/models.ts";
-import {
-    UserScoresService,
-} from "./../../../api/routes/user-scores/domains/ports.ts";
 import { fetchUserScores } from "./actions.ts";
-import { APIUserScoresAdapter } from "../../domain/api/adapters.ts";
+import { APIAdapter } from "../../domain/api/adapters.ts";
+import { APIService } from "../../domain/api/ports.ts";
 
 export default function useUserScores() {
 
@@ -15,7 +13,7 @@ export default function useUserScores() {
 
     const program = pipe(
         fetchUserScores,
-        Effect.provideService(UserScoresService, new APIUserScoresAdapter()),
+        Effect.provideService(APIService, new APIAdapter()),
         Effect.catchAll((_defect) => {
             return Effect.succeed([]);
         })
