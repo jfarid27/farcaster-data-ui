@@ -3,10 +3,11 @@ import cors from 'cors';
 import loadRoutes from './routes/index.ts';
 import { fromFileUrl, join } from "jsr:@std/path";
 
-// Heroku sets `PORT` for the *web* process.
-// Allow `SERVER_PORT` as a fallback for local/docker runs.
+// For local dev with Vite proxy: use SERVER_PORT (8000) so the API doesn't
+// conflict with Vite's frontend port. For Heroku: set SERVER_PORT=$PORT in the
+// Procfile so the API binds to the correct port.
 const PORT = Number(
-  Deno.env.get("PORT") ?? Deno.env.get("SERVER_PORT") ?? "8000",
+  Deno.env.get("SERVER_PORT") ?? Deno.env.get("PORT") ?? "8000",
 );
 
 const app = express()

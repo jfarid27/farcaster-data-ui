@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Effect, pipe } from "effect";
 import {
     type DAUResponseDataT,
-} from "./../../../api/routes/dau/domains/models.ts";
+} from "./../../../server/routes/dau/domains/models.ts";
 import { fetchDAUs } from "./actions.ts";
 import { APIAdapter } from "../../domain/api/adapters.ts";
 import { APIService } from "../../domain/api/ports.ts";

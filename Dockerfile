@@ -18,4 +18,4 @@ RUN deno run -A npm:vite build
 EXPOSE 8000
 
 # Single web process: serves API + the built UI from `dist/`
-CMD ["deno", "run", "-A", "api/main.ts"]
+CMD ["deno", "run", "-A", "server/main.ts"]

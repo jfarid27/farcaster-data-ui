@@ -1,9 +1,9 @@
 {
   "tasks": {
-      "dev": "deno run -A npm:vite & deno run server:start",
+      "dev": "deno task server:start & sleep 2 && deno run -A npm:vite",
       "build": "deno run -A npm:vite build",
-      "server:start": "deno run --env-file=.env -A --watch ./api/main.ts ",
-      "serve": "deno run build && deno run server:start"
+      "server:start": "deno run --env-file=.env -A --watch ./server/main.ts ",
+      "serve": "deno task build && deno task server:start"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {

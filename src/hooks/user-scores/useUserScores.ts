@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Effect, pipe } from "effect";
 import {
     type UserScoresResponseDataT,
-} from "./../../../api/routes/user-scores/domains/models.ts";
+} from "./../../../server/routes/user-scores/domains/models.ts";
 import { fetchUserScores } from "./actions.ts";
 import { APIAdapter } from "../../domain/api/adapters.ts";
 import { APIService } from "../../domain/api/ports.ts";
