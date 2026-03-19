@@ -1,5 +1,4 @@
 import { Effect, Schema } from "effect";
-import { UserScoresFetchError } from "../errors.ts";
 import {
 
     UserScoreRequestDataT,
