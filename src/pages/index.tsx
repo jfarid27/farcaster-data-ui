@@ -4,7 +4,7 @@ export default function Index() {
 
   return (
     <main id="content">
-      <h1>Farcaster User Scores </h1>
+      <h1>Farcaster User Data </h1>
       <TopUsers />
     </main>
   );

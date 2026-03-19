@@ -4,8 +4,8 @@ export default function TopUsers() {
   const { userScores } = useUserScores();
 
   return (
-    <main id="content">
-      <h1>Farcaster User Scores </h1>
+    <div id="top-users">
+      <h3>Farcaster User Scores </h3>
       {userScores.map((userScore: any) => {
         return (
           <div
@@ -18,6 +18,6 @@ export default function TopUsers() {
           </div>
         );
       })}
-    </main>
+    </div>
   );
 }

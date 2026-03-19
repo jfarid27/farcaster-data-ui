@@ -1,7 +1,7 @@
 import express from 'express';
 import { Effect, pipe } from 'effect';
 import { fetchDAU } from './domains/actions.ts';
-import { MockDAUAdapter } from './domains/adapters/mock.ts';
+import { SQLDAUAdapter } from './domains/adapters/sql.ts';
 import { DAUService } from './domains/ports.ts';
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     Effect.tap(dau => {
       Effect.logDebug("DAU: " + JSON.stringify(dau));
     }),
-    Effect.provideService(DAUService, new MockDAUAdapter()),
+    Effect.provideService(DAUService, new SQLDAUAdapter()),
     Effect.catchAll((defect) => {
       Effect.logError(defect);
       Effect.log("Error fetching latest daus")
