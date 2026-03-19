@@ -1,7 +1,7 @@
 import express from 'express';
 import { Effect, pipe } from 'effect';
 import { fetchLatestUserScores, fetchUserScore } from './domains/actions.ts';
-import { MockUserScoresAdapter } from './domains/adapters/mock.ts';
+import { SQLUserScoresAdapter } from './domains/adapters/sql.ts';
 import { UserScoresService } from './domains/ports.ts';
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     Effect.tap(userScores => {
       Effect.logDebug("User scores: " + JSON.stringify(userScores));
     }),
-    Effect.provideService(UserScoresService, new MockUserScoresAdapter()),
+    Effect.provideService(UserScoresService, new SQLUserScoresAdapter()),
     Effect.catchAll((defect) => {
       Effect.logError(defect);
       Effect.log("Error fetching latest user scores")
@@ -29,6 +29,7 @@ router.get('/', async (req, res) => {
     const result = await Effect.runPromise(program);
     res.status(200).json(result);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -43,7 +44,7 @@ router.get('/:fid', async (req, res) => {
     Effect.tap(userScores => {
       Effect.logDebug("User score for FID: " + paramFid + " - " + JSON.stringify(userScores));
     }),
-    Effect.provideService(UserScoresService, new MockUserScoresAdapter()),
+    Effect.provideService(UserScoresService, new SQLUserScoresAdapter()),
     Effect.catchAll((defect) => {
       Effect.logError(defect);
       Effect.log("Error fetching user score for FID: " + paramFid)
