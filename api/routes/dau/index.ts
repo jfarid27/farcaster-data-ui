@@ -20,7 +20,6 @@ router.get('/', async (req, res) => {
     Effect.provideService(DAUService, new SQLDAUAdapter()),
     Effect.catchAll((defect) => {
       Effect.logError(defect);
-      Effect.log("Error fetching latest daus")
       return Effect.fail({ error: 'Internal server error' });
     }),
   );

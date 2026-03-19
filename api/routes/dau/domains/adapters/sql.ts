@@ -15,12 +15,18 @@ export class SQLDAUAdapter implements DAUPort {
   private static getPool(): Pool {
     if (SQLDAUAdapter.pool) return SQLDAUAdapter.pool;
 
-    const connectionString = process.env.POSTGRES_URI;
+    const connectionString = Deno.env.get("POSTGRES_URI");
     if (!connectionString) {
       throw new Error("Missing POSTGRES_URI environment variable");
     }
 
-    SQLDAUAdapter.pool = new Pool({ connectionString });
+    // Many hosted Postgres setups (e.g. AWS RDS) require SSL.
+    // Your error ends with `no encryption`, which usually means we attempted a
+    // non-SSL connection that doesn't match the server's pg_hba rules.
+    SQLDAUAdapter.pool = new Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+    });
     return SQLDAUAdapter.pool;
   }
 
@@ -34,18 +40,22 @@ export class SQLDAUAdapter implements DAUPort {
       const query = `
         SELECT
           to_char("date", 'YYYY-MM-DD') AS "day",
-          "users"::double precision AS "dau",
-          "adjusted_users"::double precision AS "scoreAdjustedDau"
-        FROM "DAU"
-        WHERE "date" >= CURRENT_DATE - ($1::int - 1)
-            AND "date" >= '2026-03-16'
+          "users" AS "dau",
+          "adjusted_users" AS "scoreAdjustedDau"
+        FROM public."DAU"
+        WHERE 
+            "date" >= '2026-03-16'
         ORDER BY "date" DESC
         LIMIT $1::int
       `;
 
-      const result = (yield* Effect.tryPromise(() =>
-        pool.query(query, [data.pastDays]),
-      )) as { rows: Array<any> };
+      const result = (yield* Effect.tryPromise({
+        try: () => pool.query(query, [data.pastDays]),
+        catch: (error) => {
+          Effect.logError(error);
+          return new DAUFetchError({ message: "Failed to fetch DAUs from database" });
+        }
+      })) as { rows: Array<any> };
 
       const dauU = {
         days: (result.rows ?? []).map((row: any) => ({
@@ -64,10 +74,6 @@ export class SQLDAUAdapter implements DAUPort {
 
     return pipe(
       program,
-      Effect.catchAll((defect) => {
-        Effect.logError(defect);
-        return Effect.fail(new DAUFetchError({ message: "Failed to fetch DAUs" }));
-      }),
     );
   }
 }
