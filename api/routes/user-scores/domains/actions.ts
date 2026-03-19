@@ -13,6 +13,8 @@ export const fetchUserScore = (fid: number) => Effect.gen(function* () {
 
 export const fetchLatestUserScores = (limit: number) => Effect.gen(function* () {
 
+    yield* Effect.logInfo("Fetching latest user scores with limit: " + limit);
+
     const userScoresService = yield* UserScoresService;
 
     const userScores = yield* userScoresService.fetchLatestUserScores({ limit });

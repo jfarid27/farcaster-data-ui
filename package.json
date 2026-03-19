@@ -14,10 +14,12 @@
     "@types/react": "^19.2.14",
     "@vitejs/plugin-react": "^6.0.1",
     "cors": "^2.8.6",
+    "d3": "^7.9.0",
     "effect": "^3.20.0",
     "esbuild": "0.27.4",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
+    "pg": "^8.20.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.1"
