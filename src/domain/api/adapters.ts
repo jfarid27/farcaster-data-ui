@@ -1,6 +1,6 @@
 import { Effect, Schema, pipe } from "effect";
-import { UserScoresFetchError } from "./../../../api/routes/user-scores/domains/errors.ts";
-import { DAUFetchError } from "./../../../api/routes/dau/domains/errors.ts";
+import { UserScoresFetchError } from "./../../../server/routes/user-scores/domains/errors.ts";
+import { DAUFetchError } from "./../../../server/routes/dau/domains/errors.ts";
 import {
 
     type UserScoreRequestDataT,
@@ -10,12 +10,12 @@ import {
     type UserScoresRequestDataT,
     UserScoresResponseData,
     type UserScoresResponseDataT
-} from "./../../../api/routes/user-scores/domains/models.ts";
+} from "./../../../server/routes/user-scores/domains/models.ts";
 import { APIPort } from "./ports.ts";
 import { 
     DAUResponseData,
     type DAUResponseDataT
-} from "../../../api/routes/dau/domains/models.ts";
+} from "../../../server/routes/dau/domains/models.ts";
 
 export class APIAdapter implements APIPort {
     fetchDAU(pastDays: string): Effect.Effect<DAUResponseDataT, DAUFetchError> {

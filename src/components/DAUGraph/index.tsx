@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
 import useDAUs from "./../../hooks/daus/useDAUs.ts";
-import type { DAUResponseDataT } from "./../../../api/routes/dau/domains/models.ts";
+import type { DAUResponseDataT } from "./../../../server/routes/dau/domains/models.ts";
 
 const DEFAULT_WIDTH = 900;
 const DEFAULT_HEIGHT = 360;

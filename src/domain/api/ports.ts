@@ -1,11 +1,11 @@
 import { Context, Effect } from "effect";
-import { UserScoresFetchError } from "./../../../api/routes/user-scores/domains/errors.ts";
+import { UserScoresFetchError } from "./../../../server/routes/user-scores/domains/errors.ts";
 import {
     type UserScoreResponseDataT,
     type UserScoresResponseDataT
-} from "./../../../api/routes/user-scores/domains/models.ts";
-import type { DAUResponseDataT } from "./../../../api/routes/dau/domains/models.ts";
-import { DAUFetchError } from "./../../../api/routes/dau/domains/errors.ts";
+} from "./../../../server/routes/user-scores/domains/models.ts";
+import type { DAUResponseDataT } from "./../../../server/routes/dau/domains/models.ts";
+import { DAUFetchError } from "./../../../server/routes/dau/domains/errors.ts";
 
 export abstract class APIPort {
   abstract fetchLatestUserScores(): Effect.Effect<UserScoresResponseDataT, UserScoresFetchError>;
