@@ -45,8 +45,8 @@
   font-size: 16px;
   padding: 10px 20px;
   border-radius: 6px;
-  color: var(--accent);
-  background: var(--accent-bg);
+  color: #ffffff;
+  background: #000000;
   border: 2px solid transparent;
   cursor: pointer;
   transition: border-color 0.3s;
@@ -54,11 +54,11 @@
 }
 
 .top-users__download-btn:hover {
-  border-color: var(--accent-border);
+  border-color: rgba(255, 255, 255, 0.45);
 }
 
 .top-users__download-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid rgba(255, 255, 255, 0.9);
   outline-offset: 2px;
 }
 

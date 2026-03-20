@@ -7,6 +7,9 @@ const DEFAULT_WIDTH = 900;
 const DEFAULT_HEIGHT = 360;
 const MARGIN = { top: 16, right: 18, bottom: 110, left: 54 };
 
+const USERS_FILL = "#e5e7eb"; // light grey
+const ADJUSTED_FILL = "#6b7280"; // darker grey
+
 type Datum = {
   day: string;
   dau: number;
@@ -100,7 +103,7 @@ export default function DAUGraph() {
       .attr("y", (d: Datum) => y(d.dau))
       .attr("height", (d: Datum) => innerHeight - y(d.dau))
       .attr("rx", 6)
-      .attr("fill", "#4f46e5")
+      .attr("fill", USERS_FILL)
       .attr("fill-opacity", 0.85);
 
     // Score adjusted bars (top layer, overlaps)
@@ -114,7 +117,7 @@ export default function DAUGraph() {
       .attr("y", (d: Datum) => y(d.scoreAdjustedDau))
       .attr("height", (d: Datum) => innerHeight - y(d.scoreAdjustedDau))
       .attr("rx", 6)
-      .attr("fill", "#22c55e")
+      .attr("fill", ADJUSTED_FILL)
       .attr("fill-opacity", 0.85);
 
     // X axis
@@ -160,7 +163,7 @@ export default function DAUGraph() {
       .attr("width", 14)
       .attr("height", 14)
       .attr("rx", 4)
-      .attr("fill", "#4f46e5");
+      .attr("fill", USERS_FILL);
 
     legend
       .append("text")
@@ -177,7 +180,7 @@ export default function DAUGraph() {
       .attr("width", 14)
       .attr("height", 14)
       .attr("rx", 4)
-      .attr("fill", "#22c55e");
+      .attr("fill", ADJUSTED_FILL);
 
     legend
       .append("text")
