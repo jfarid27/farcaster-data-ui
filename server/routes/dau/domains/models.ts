@@ -15,8 +15,8 @@ export type DAURequestDataT = Schema.Schema.Type<typeof DAURequestData>
 
 export const DAUDay = Schema.Struct({
     day: Schema.String,
-    dau: Schema.Number.pipe(Schema.greaterThan(0)),
-    scoreAdjustedDau: Schema.Number.pipe(Schema.greaterThan(0)),
+    dau: Schema.NonNegative,
+    scoreAdjustedDau: Schema.NonNegative,
 })
 
 /**
